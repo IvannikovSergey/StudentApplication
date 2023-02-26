@@ -6,12 +6,23 @@ public class StudentOrderValidator {
 
 
     static void checkAll() {
-        StudentOrder studentOrder = readStudentOrder();
-        AnswerCityRegister cityAnswer = checkCityRegister(studentOrder);
-        AnswerWedding weddingAnswer = checkWedding(studentOrder);
-        AnswerChildren childrenAnswer = checkChildren(studentOrder);
-        AnswerStudent studentAnswer = checkStudent(studentOrder);
-        sendMail(studentOrder);
+
+
+        while (true) {
+            StudentOrder studentOrder = readStudentOrder();
+            if (studentOrder == null) {
+                break;
+            }
+
+            AnswerCityRegister cityAnswer = checkCityRegister(studentOrder);
+            if (!cityAnswer.success) {
+                continue;
+            }
+            AnswerWedding weddingAnswer = checkWedding(studentOrder);
+            AnswerChildren childrenAnswer = checkChildren(studentOrder);
+            AnswerStudent studentAnswer = checkStudent(studentOrder);
+            sendMail(studentOrder);
+        }
     }
 
     static StudentOrder readStudentOrder() {
@@ -19,7 +30,10 @@ public class StudentOrderValidator {
     }
 
     static AnswerCityRegister checkCityRegister(StudentOrder studentOrder) {
-        return new AnswerCityRegister();
+        AnswerCityRegister answerCityRegister = new AnswerCityRegister();
+        System.out.println("CityRegister is running");
+        answerCityRegister.success = false;
+        return answerCityRegister;
     }
 
     static AnswerWedding checkWedding(StudentOrder studentOrder) {
